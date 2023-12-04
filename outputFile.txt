@@ -1,0 +1,3 @@
+None, 0, None, None, X, None, None, None, None
+X, 0, 0, None, X, None, None, None, None
+X, 0, 0, None, X, None, 0, None, X
