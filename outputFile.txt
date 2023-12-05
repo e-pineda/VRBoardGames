@@ -1,4 +1,4 @@
 None, None, None, None, None, None, None, None, None
-None, 0, None, None, X, None, None, None, None
-X, 0, 0, None, X, None, None, None, None
-X, 0, 0, None, X, None, 0, None, X
+O, None, None, None, X, None, None, None, None
+O, None, X, None, X, None, O, None, None
+O, None, X, O, X, X, O, None, None

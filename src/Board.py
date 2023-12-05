@@ -42,6 +42,7 @@ class Board(object):
     def winner(self):
         for player in ('X', 'O'):
             positions = self.get_squares(player)
+            # print(f'positions -- {positions}, player {player}')
             for combo in self.winning_combos:
                 win = True
                 for pos in combo:
