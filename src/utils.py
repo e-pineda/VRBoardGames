@@ -5,7 +5,7 @@ def get_opponent(player):
         return 'O'
     return 'X'
 
-
+# determines the best move to make given the board state and the computer's given difficulty
 def determine(board, player, easy_mode):
     a = -2
     choices = []
@@ -33,7 +33,7 @@ def determine(board, player, easy_mode):
     print(choices, move)
     return move
 
-
+# this is the alphabeta algorithm (e.g. hard difficulty)
 def alphabeta(node, player, alpha, beta):
     """Alphabeta algorithm"""
     if node.complete():
@@ -60,6 +60,7 @@ def alphabeta(node, player, alpha, beta):
                 return alpha
     return alpha if player == 'O' else beta
 
+# this is the minimax algorithm (e.g. easy difficulty)
 def minimax(node, player):
     if node.complete():
         if node.X_won():

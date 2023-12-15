@@ -5,34 +5,36 @@ import numpy as np
 MAX_PIXEL_VALUE = 255
 
 
-# openCV documention
+# convert inputted image to grayscale, pulled from openCV documention
 def to_gray_scale(img):
     grayscale_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(grayscale_img, 127, MAX_PIXEL_VALUE, cv2.THRESH_BINARY)
+    _, thresh = cv2.threshold(grayscale_img, 170, MAX_PIXEL_VALUE, cv2.THRESH_BINARY)
     thresh = cv2.GaussianBlur(thresh, (7, 7), 0)
     return thresh
 
-
-def find_board(board):
+# generate coordinates of the various grid slots based on the board's detection
+def find_grid(board):
     board_img = cv2.cvtColor(board, cv2.COLOR_BGR2GRAY)
-    _, board_thresh = cv2.threshold(board_img, 127, MAX_PIXEL_VALUE, cv2.THRESH_BINARY_INV)
+    _, board_thresh = cv2.threshold(board_img, 170, MAX_PIXEL_VALUE, cv2.THRESH_BINARY_INV)
     move_slot_coords = find_move_slot_coords(board_thresh)
     return board_img, board_thresh, move_slot_coords
 
 
-# finds corners of tictactoe board
-# openCV documention
+# finds corners of tictactoe board using the Harris Corner Detector, pulled from openCV documention
 def find_corners(img):
     corners = cv2.cornerHarris(img, 5, 3, 0.1)
     corners = cv2.dilate(corners, None)
     corners = cv2.threshold(corners, 0.01 * corners.max(), MAX_PIXEL_VALUE, 0)[1]
     corners = corners.astype(np.uint8)
     _, labels, stats, centroids = cv2.connectedComponentsWithStats(corners, connectivity=4)
-    return stats[1:, :2] #first point is center, so drop 
+    return stats[1:, :2] #first point is center, so drop the center point as it is not a corner
 
 
-# finds the playable board
-def find_and_mark_board_boundary(frame, thresh):
+# finds the playable board and transforms the perspective
+# this works by identifying the corners of the board's boundaries using the find_corners function
+# the perspective of the video feed is then transformed so that the perspective is top-down
+# the perspective transformation is not necessary, but is useful for debugging and demoing
+def find_board(frame, thresh):
     corner_coords = find_corners(thresh)
     sorted_corners = sort_corners(corner_coords)
 
@@ -40,13 +42,11 @@ def find_and_mark_board_boundary(frame, thresh):
     frame = perspective_transform(frame, sorted_corners) 
     frame = frame[10:-10, 10:-10]
 
-    for c in sorted_corners:
-        formatted_corner = tuple((int(c[0]), int(c[1])))
-        cv2.circle(frame, formatted_corner, 2, (255, 0, 0), 2)
-
     return frame
 
 
+# finds the contours/gridlines of the grid, then draws a bounding box around the grid using the contours/gridlines
+# generates coordinates for the various grid slots
 def find_move_slot_coords(img):
     contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     sorted_cntrs = sorted(contours, key=lambda contour: cv2.contourArea(contour))
@@ -75,29 +75,30 @@ def find_move_slot_coords(img):
             bottom_left, bottom_center, bottom_right]
 
 
+# sorts a list of corners, pulled from PyImageSearch
 def sort_corners(corners):
-	# initialize a list of coordinates that will be ordered
-	# such that the first entry in the list is the top-left,
-	# the second entry is the top-right, the third is the
-	# bottom-right, and the fourth is the bottom-left
-	rect = np.zeros((4, 2), dtype="float32")
-	# the top-left point will have the smallest sum, whereas
-	# the bottom-right point will have the largest sum
-	s = corners.sum(axis=1)
-	rect[0] = corners[np.argmin(s)]
-	rect[2] = corners[np.argmax(s)]
-	# now, compute the difference between the points, the
-	# top-right point will have the smallest difference,
-	# whereas the bottom-left will have the largest difference
-	diff = np.diff(corners, axis=1)
-	rect[1] = corners[np.argmin(diff)]
-	rect[3] = corners[np.argmax(diff)]
-	# return the ordered coordinates
-	return rect
+    # initialize a list of coordinates that will be ordered
+    # such that the first entry in the list is the top-left,
+    # the second entry is the top-right, the third is the
+    # bottom-right, and the fourth is the bottom-left
+    rect = np.zeros((4, 2), dtype="float32")
+    # the top-left point will have the smallest sum, whereas
+    # the bottom-right point will have the largest sum
+    s = corners.sum(axis=1)
+    rect[0] = corners[np.argmin(s)]
+    rect[2] = corners[np.argmax(s)]
+    # now, compute the difference between the points, the
+    # top-right point will have the smallest difference,
+    # whereas the bottom-left will have the largest difference
+    diff = np.diff(corners, axis=1)
+    rect[1] = corners[np.argmin(diff)]
+    rect[3] = corners[np.argmax(diff)]
+    # return the ordered coordinates
+    return rect
 
 # presents img in top-down perspective
 def perspective_transform(img, corners):
-    tl, tr, br, bl  = corners
+    tl, tr, br, bl = corners
 
     # get dimensons of new image
     heightA = np.linalg.norm(tr - br)
@@ -120,7 +121,7 @@ def perspective_transform(img, corners):
     warped = cv2.warpPerspective(img, M, (width, height))
     return warped
 
-
+# draws player symbols
 def draw_shape(img, shape, coords):
     x, y, w, h = coords
     if shape == 'X':
