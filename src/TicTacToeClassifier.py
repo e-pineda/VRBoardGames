@@ -2,7 +2,6 @@ from keras.utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Flatten, Dense, Dropout
-from keras.callbacks import EarlyStopping
 from keras.preprocessing.image import ImageDataGenerator
 import os
 import numpy as np
@@ -32,7 +31,7 @@ def load_img(img_path):
     img = np.expand_dims(img, axis=-1)
     return img.astype(np.float32)
 
-
+# loads data from directory
 def load_data(base_dir):
     X, y = [], []
 
@@ -52,7 +51,7 @@ def load_data(base_dir):
     y = to_categorical(y)
     return np.asarray(X), np.asarray(y)
 
-
+# Generates convolutional blocks to attach to CNN --> helps with understanding the image
 def generate_conv_block(model, is_input=False):
     if is_input:
         model.add(Conv2D(64, (3, 3), input_shape=input_shape, padding='same'))
@@ -62,7 +61,7 @@ def generate_conv_block(model, is_input=False):
     model.add(MaxPooling2D(pool_size=(2, 2)))   
     return model
 
-
+# Generates dense blocks to attach to CNN --> helps with understanding the relationship between latent feature space and given label
 def generate_dense_block(model, add_dropout_layer=False):
     model.add(Dense(64))
     model.add(Activation('relu'))
@@ -71,7 +70,7 @@ def generate_dense_block(model, add_dropout_layer=False):
     return model
 
 
-# reshape image to match model's input shape
+# reshape image to match model's input shape, used for predicting on live data
 def reshape_input(img):
     img = cv2.resize(img, (32, 32))
 
@@ -88,7 +87,7 @@ if __name__ == "__main__":
     print('{} instances for training'.format(len(X_train)))
     print('{} instances for evaluation'.format(len(X_test)))
 
-    # Build and compile model
+    # Step 0. Build and compile model
     model = Sequential()
 
     for i in range(conv_blocks):
@@ -96,7 +95,7 @@ if __name__ == "__main__":
             model = generate_conv_block(model, is_input=True)
         model = generate_conv_block(model)
 
-    model.add(Flatten())
+    model.add(Flatten()) # add a flatten layer so that the latent feature space can be ingested by the dense layers
 
     for i in range(dense_blocks):
         if i == dense_blocks - 1:
@@ -104,24 +103,24 @@ if __name__ == "__main__":
         else:
             model = generate_dense_block(model)
 
-    model.add(Dense(3, activation='softmax'))
+    model.add(Dense(3, activation='softmax')) # this is the output layer; there are 3 labels, hence 3 nodes
 
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer='rmsprop',
                   metrics=['accuracy'])
 
-    # Train model
+    # 1. Create train generator that manipulates the image to help improve the training & reduce overfitting
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
         shear_range=0.2,
         zoom_range=0.2,
         horizontal_flip=True,
         validation_split=0.15)
-
     train_generator = train_datagen.flow(X_train, y_train, batch_size=batch_size, subset='training')
     val_generator = train_datagen.flow(X_train, y_train, batch_size=batch_size, subset='validation')
 
+    # 2. Train the model
     print('Training model...')
     history = model.fit(
         train_generator,
@@ -129,11 +128,12 @@ if __name__ == "__main__":
         validation_data=val_generator,
         epochs=epochs)
 
+    # 3. Evaluate the model
     print('Evaluating model...')
     test_datagen = ImageDataGenerator(rescale=1 / 255)
     X_test, y_test = next(test_datagen.flow(X_test, y_test, batch_size=batch_size))
     loss, acc = model.evaluate(X_test, y_test, batch_size=batch_size)
 
-    # Save model
+    # 4. Save model
     print('Saving model...')
     model.save(f'model/{model_name}.h5')
