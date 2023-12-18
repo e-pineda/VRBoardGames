@@ -72,6 +72,7 @@ def generate_dense_block(model, add_dropout_layer=False):
 
 # reshape image to match model's input shape, used for predicting on live data
 def reshape_input(img):
+    print(img.shape)
     img = cv2.resize(img, (32, 32))
 
     # add dims for channel_last and batch size

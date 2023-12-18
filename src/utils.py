@@ -30,7 +30,7 @@ def determine(board, player, easy_mode):
             choices.append(move)
 
     move = random.choice(choices)
-    print(choices, move)
+    # print(choices, move)
     return move
 
 # this is the alphabeta algorithm (e.g. hard difficulty)

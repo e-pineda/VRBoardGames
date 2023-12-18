@@ -8,14 +8,14 @@ MAX_PIXEL_VALUE = 255
 # convert inputted image to grayscale, pulled from openCV documention
 def to_gray_scale(img):
     grayscale_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(grayscale_img, 170, MAX_PIXEL_VALUE, cv2.THRESH_BINARY)
+    _, thresh = cv2.threshold(grayscale_img, 127, MAX_PIXEL_VALUE, cv2.THRESH_BINARY)
     thresh = cv2.GaussianBlur(thresh, (7, 7), 0)
     return thresh
 
 # generate coordinates of the various grid slots based on the board's detection
 def find_grid(board):
     board_img = cv2.cvtColor(board, cv2.COLOR_BGR2GRAY)
-    _, board_thresh = cv2.threshold(board_img, 170, MAX_PIXEL_VALUE, cv2.THRESH_BINARY_INV)
+    _, board_thresh = cv2.threshold(board_img, 127, MAX_PIXEL_VALUE, cv2.THRESH_BINARY_INV)
     move_slot_coords = find_move_slot_coords(board_thresh)
     return board_img, board_thresh, move_slot_coords
 
@@ -40,7 +40,7 @@ def find_board(frame, thresh):
 
     # Get top down view of board
     frame = perspective_transform(frame, sorted_corners) 
-    frame = frame[10:-10, 10:-10]
+    # frame = frame[10:-10, 10:-10]
 
     return frame
 

@@ -31,6 +31,9 @@ class Board(object):
     def available_moves(self):
         return [k for k, v in enumerate(self.squares) if v is None]
 
+    def unavailable_moves(self):
+        return [k for k, v in enumerate(self.squares) if v is not None]
+
 
     def available_combos(self, player):
         return self.available_moves() + self.get_squares(player)
