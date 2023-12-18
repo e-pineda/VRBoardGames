@@ -20,10 +20,7 @@ To change the computer opponent's difficulty, go to the TicTacToePlayer.py file 
 To turn the AI move detector off, go to the TicTacToePlayer.py file and set AI_move_detection_mode to False.
 
 #### Experimenting with the AI move Detector
-If you are interested in retraining or experimenting with the CNN, please run TicTacToeClassifier.py file. 
-
-
-The training and test data are located in the data folder.
+If you are interested in retraining or experimenting with the CNN, please run TicTacToeClassifier.py file. NOTE: you must unzip the data folder as it contains the training and test data.
 
 #### Issues
 If there any issues, please check that the whole board is within the vision of the webcamera, there is ample lighting on the board (no shadows or darkness should be on the board). 
