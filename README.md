@@ -1,8 +1,12 @@
 # VRBoardGames
 To run our program, you must run the computer vision (CV) script and the blender script simultaneously.
 
-To run the computer vision script, you must be using Python 3.9. Next, run the following command to install the necessary libraries:
-pip install -r requirements. txt
+To run the computer vision script, you MUST be using Python 3.9. Next, run the following command to install the necessary libraries:
+
+
+pip install -r requirements.txt
+
+
 
 While the packages are being installed, please take the time to prepare your hardware. A web camera, piece of paper with a Tic-Tac-Toe grid drawn on it and a writing instrument are all needed. 
 Make sure the piece of paper with a Tic-Tac-Toe grid drawn on it is entirely within the vision of the webcamera. The only visible object to the webcamera should be the playable board.
