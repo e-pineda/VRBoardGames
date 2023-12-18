@@ -1,5 +1,13 @@
 # VRBoardGames
 
+NOTE: Please install Google Drive for desktop. Once done, this will create a directory called "G:\My Drive\" on your machine. In that directory, create a folder called "TicTacToe" and populate said folder with three empty files: board.csv, GameStatus.txt and GameMode.txt. These files are how the VR and Computer Vision components communicate to one another. 
+Here's a link offering guidance on this task: https://support.google.com/drive/answer/10838124?hl=en
+
+
+Also, here's a report explaining our project: https://docs.google.com/document/d/1byRqBKa7IiX0Wc4QQ1mNew1SFi11p3Zw/edit?usp=sharing&ouid=112616462046538216374&rtpof=true&sd=true
+A demo video for our project: https://drive.google.com/file/d/1DWJwIGtPGcsbmzFBtDZMj8eLrwhxADJZ/view?usp=sharing
+A presentation for our project: https://drive.google.com/file/d/1patP26iwCHg_QD6k1pjEs021mdojdRSM/view?usp=drive_link
+
 **CV & Game Component**
 #### Installation
 To run the computer vision script, you MUST be using Python 3.9. Next, run the following command to install the necessary libraries:
