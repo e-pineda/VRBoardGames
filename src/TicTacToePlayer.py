@@ -189,8 +189,8 @@ while cap.isOpened():
 
     unavailable_keys = [x+48 for x in unavailable_moves]
     if message and g_status != 'Done':
-        # print(f'{currentSymbol}\'s Available moves: {board.available_moves()}')
-        # print(f'{currentSymbol}\'s Unavailable moves: {board.unavailable_moves()}')
+        print(f'{currentSymbol}\'s Available moves: {board.available_moves()}')
+        print(f'{currentSymbol}\'s Unavailable moves: {board.unavailable_moves()}')
         if AI_move_detection_mode:
             print(f'\nPlayer {currentSymbol}\'s turn!\nMake move (on window), then press spacebar\n')
         else:
