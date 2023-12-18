@@ -1,4 +1,7 @@
 # VRBoardGames
+
+**CV & Game Component**
+
 To run our program, you must run the computer vision (CV) script and the blender script simultaneously.
 
 To run the computer vision script, you MUST be using Python 3.9. Next, run the following command to install the necessary libraries:
@@ -27,3 +30,5 @@ If you are interested in retraining or experimenting with the CNN, please run Ti
 
 If there any issues, please check that the whole board is within the vision of the webcamera, there is ample lighting on the board (no shadows or darkness should be on the board). 
 Plase note that currently, the only way to fix a wrong prediction made by the AI move detector is to restart the game.  
+
+**UI Component**
