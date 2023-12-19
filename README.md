@@ -57,10 +57,28 @@ Blender code: https://github.com/e-pineda/VRBoardGames/blob/main/UI_Components/B
 
 Python code: https://github.com/e-pineda/VRBoardGames/tree/main/UI_Components/PythonScripts
 
+### Download 
+
+We use the blender add-on poliigon.
+
+Download: https://www.poliigon.com/blender
+
+Download Image Files for the 3D Model of the Hand: 
+
+https://drive.google.com/file/d/1-v0LF4qYrMbK_QcpWg-JgSLHwuEmRvhV/view?usp=sharing
+
+https://drive.google.com/file/d/1-ya2Ymsz3Hysx3BrfYmJ_L5sXk7-mC2Q/view?usp=sharing
+
+
 ### Running Blender Code
 
 1. Open TicTacToeVR.blend in UPBGE
-2. Run UPBGE game engine by selecting Standalone Start as shown below.
+2. Install the add-on for poliigon
+3. You may be missing some of the files needed by the add-ons. To fix this, go to File --> External Data --> Find Missing Files and navigate to the directory where the poliigon add-on has been installed and select "Find Missing Files" button. Navigate to the directory where you saved the 3D Model of the Hand and select "Find Missing Files" button as well.
+   
+![Import Missing File](images/ImportMissingFile.jpg "Import Missing File")
+
+4. Run UPBGE game engine by selecting Standalone Start as shown below.
 ![Start Gaming Engine](images/StartUPBGE.jpg "Start Gaming Engine")
 
 ### Troubleshooting
