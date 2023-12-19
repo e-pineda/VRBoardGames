@@ -11,9 +11,9 @@ gameOver = objects["GameOver"]
 
 if restartkey.positive and gameOver.visible == 1: 
     gameOver.visible = 0
-    f = open("G:\My Drive\\board.csv", "w")
+    f = open("G:\My Drive\TicTacToe\\board.csv", "w")
     f.close()
-    f = open("G:\My Drive\GameStatus.txt", "w")
+    f = open("G:\My Drive\TicTacToe\GameStatus.txt", "w")
     f.close()      
     
     objects["Cross.1"].position.x = -43.0244 

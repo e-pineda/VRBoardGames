@@ -5,7 +5,7 @@ import csv
 import time
 import sys
 
-directory = "G:\My Drive"
+directory = "G:\My Drive\TicTacToe"
 filename = "board.csv"
 
 board = os.path.join(directory, filename)
