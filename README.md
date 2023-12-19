@@ -42,3 +42,28 @@ Plase note that currently, the only way to fix a wrong prediction made by the AI
 
 
 ## UI Component
+
+### Installation
+
+Download and install Blender 3.6 and UPBGE 0.36.1
+
+Blender 3.6: https://www.blender.org/download/lts/3-6/
+
+UPBGE 0.36.1: https://upbge.org/#/download
+
+### Download Source Code
+
+Blender code: https://github.com/e-pineda/VRBoardGames/blob/main/UI_Components/BlenderCode.txt
+
+Python code: https://github.com/e-pineda/VRBoardGames/tree/main/UI_Components/PythonScripts
+
+### Running Blender Code
+
+1. Open TicTacToeVR.blend in UPBGE
+2. Run UPBGE game engine by selecting Standalone Start as shown below.
+![Start Gaming Engine](images/StartUPBGE.jpg "Start Gaming Engine")
+
+### Troubleshooting
+
+1. If the game engine runs and generates the UI but does not respond to the user commands, there is an issue with the Logic Bricks setup. Check if the script name referenced in the Logic Bricks section matches that in the Text editor as shown below.
+![Troubleshoot](images/Troubleshoot.jpg)
